@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -25,7 +28,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class HomeScreen extends Activity {
+public class HomeScreen extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private DrawerLayout sideMenu;
     final LivestockAPI API = LivestockAPI.getInstance(this);
@@ -36,7 +39,12 @@ public class HomeScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
-
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayShowTitleEnabled(false);
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(HomeScreen.this);
 
@@ -56,7 +64,7 @@ public class HomeScreen extends Activity {
                             Intent myIntent = new Intent(HomeScreen.this,AddOwner.class);
                             startActivityForResult(myIntent,0);
                         }
-                        else if  (menuItem.getTitle().equals("Login")){
+                        else if  (menuItem.getTitle().equals("Logout")){
                             //Return to login
                             finish();
                         }
@@ -75,6 +83,18 @@ public class HomeScreen extends Activity {
                     }
                 });
 }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                sideMenu.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
     private void performLocationSearch(){
         final LivestockAPI API = LivestockAPI.getInstance(this);
         //Request Location permission
