@@ -20,6 +20,9 @@ public class AddOwner extends Activity {
         setContentView(R.layout.addowner);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(AddOwner.this);
 
+        ((EditText)findViewById(R.id.TXT_OwnerFName)).requestFocus();
+
+
         Button btnRegister = (Button) findViewById(R.id.addOwner);
         btnRegister.setOnClickListener(new View.OnClickListener(){
             @Override

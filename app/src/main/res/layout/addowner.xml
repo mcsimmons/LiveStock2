@@ -15,7 +15,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Phone"
-        android:inputType="textPersonName|phone"
+        android:inputType="phone"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerLName" />
@@ -29,7 +30,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="State"
-        android:inputType="textPostalAddress"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerCity" />
@@ -43,7 +45,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="City"
-        android:inputType="textPostalAddress"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerStreet" />
@@ -57,7 +60,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Street Address"
-        android:inputType="textPostalAddress"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerPhone" />
@@ -71,7 +75,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="Last Name"
-        android:inputType="textPersonName"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerFName" />
@@ -85,7 +90,8 @@
         android:layout_marginEnd="8dp"
         android:ems="10"
         android:hint="First Name"
-        android:inputType="textPersonName"
+        android:inputType="textNoSuggestions"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -130,6 +136,7 @@
         android:ems="10"
         android:hint="Zip"
         android:inputType="number"
+        android:importantForAutofill="no"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TXT_OwnerState" />

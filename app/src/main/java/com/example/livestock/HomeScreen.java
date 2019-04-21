@@ -122,14 +122,15 @@ public class HomeScreen extends AppCompatActivity {
                                 try {
                                     JSONArray jResponse = new JSONArray(response);
 
-                                    Toast.makeText(getApplicationContext(),jResponse.getJSONObject(0).getString("name"), Toast.LENGTH_LONG).show();
 
+                                    long[] owner_ids = new long[jResponse.length() + 1];
                                     double[] longitudes = new double[jResponse.length() + 1];
                                     double[] latitudes = new double[jResponse.length() + 1];
                                     String[] names = new String[jResponse.length() + 1];
                                     long[] phones = new long[jResponse.length() + 1];
 
                                     //Start with user's current location
+                                    owner_ids[0] = -1;
                                     longitudes[0] = longitude;
                                     latitudes[0] = latitude;
                                     names[0] = "You are here";
@@ -138,6 +139,7 @@ public class HomeScreen extends AppCompatActivity {
                                     //Extract all coordinates and names from response
                                     for (int i = 1; i <= jResponse.length(); i++){
                                         JSONObject job = jResponse.getJSONObject(i-1);
+                                        owner_ids[i] = job.getLong("id");
                                         longitudes[i] = job.getDouble("longitude");
                                         latitudes[i] = job.getDouble("latitude");
                                         names[i] = job.getString("name");
@@ -145,6 +147,7 @@ public class HomeScreen extends AppCompatActivity {
                                     }
                                     //Now show success map view
                                     Intent myIntent = new Intent(HomeScreen.this,MapsActivity.class);
+                                    myIntent.putExtra("owner_ids",owner_ids);
                                     myIntent.putExtra("longitudes",longitudes);
                                     myIntent.putExtra("latitudes",latitudes);
                                     myIntent.putExtra("names",names);

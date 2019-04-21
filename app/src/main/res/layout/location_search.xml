@@ -15,11 +15,30 @@
 
     <Button
         android:id="@+id/tcs_done"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="0.7"
         android:background="@color/LiveStockColor"
+        android:drawableLeft="@drawable/ic_call_black_24dp"
+        android:paddingLeft="10dp"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/tcs_owner_info"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="0.3"
+        android:background="@color/LiveStockColor"
+        android:drawableLeft="@drawable/ic_info_outline_black_24dp"
+        android:paddingHorizontal="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tcs_done" />
+
+
 </android.support.constraint.ConstraintLayout>

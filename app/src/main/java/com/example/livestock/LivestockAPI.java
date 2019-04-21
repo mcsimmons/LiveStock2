@@ -190,4 +190,18 @@ public class LivestockAPI {
         mRequestQueue.add(mStringRequest);
     }
 
+    public void getOwnerInfo(Response.Listener<String> onSuccess, long owner_id){
+
+        mRequestQueue = Volley.newRequestQueue(mCtx);
+
+        // Create Request
+        mStringRequest = new StringRequest(Request.Method.GET,"http://3.17.167.248/owner_info?owner_id=" + owner_id, onSuccess, new Response.ErrorListener() {
+            @Override public void onErrorResponse(VolleyError error){
+                Log.i(TAG, "ERROR :" + error.toString());
+            }
+        });
+
+        mRequestQueue.add(mStringRequest);
+    }
+
 }

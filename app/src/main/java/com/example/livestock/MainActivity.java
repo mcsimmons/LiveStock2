@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         final LivestockAPI API = LivestockAPI.getInstance(this);
 
+        ((EditText)findViewById(R.id.TXT_Email)).requestFocus();
 
         TextView txtRegister = (TextView) findViewById(R.id.TXT_SignUp);
         txtRegister.setOnClickListener(new View.OnClickListener(){
