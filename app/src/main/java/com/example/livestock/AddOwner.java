@@ -20,6 +20,9 @@ public class AddOwner extends Activity {
         setContentView(R.layout.addowner);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(AddOwner.this);
 
+        ((EditText)findViewById(R.id.TXT_OwnerFName)).requestFocus();
+
+
         Button btnRegister = (Button) findViewById(R.id.addOwner);
         btnRegister.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -42,7 +45,8 @@ public class AddOwner extends Activity {
             public void onResponse(String response)
             {   // Get Response
 
-                if(response.contains("ongitude")){
+                if(response.contains("Owner added")){
+                    Toast.makeText(getApplicationContext(), response.replace("\"", ""), Toast.LENGTH_LONG).show();
                     finish();
                 }
                 else {

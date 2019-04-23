@@ -25,6 +25,9 @@ public class RegisterUser extends Activity {
         setContentView(R.layout.registration);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(RegisterUser.this);
 
+        ((EditText)findViewById(R.id.TXT_FName)).requestFocus();
+
+
         Button btnRegister = (Button) findViewById(R.id.register);
         btnRegister.setOnClickListener(new View.OnClickListener(){
             @Override
