@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -118,7 +120,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(final Marker marker) {
 
-                if ((long) marker.getTag() >= 0) {
+                //marker.showInfoWindow();
+                //CameraUpdate mCameraUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
+                //mMap.animateCamera(mCameraUpdate);
+
+                long marker_index = -1;
+
+                try {
+                    marker_index = (long) marker.getTag();
+                }
+                catch(Exception e){
+                    marker_index = -1;
+                }
+
+                if (marker_index >= 0) {
                     // TODO Auto-generated method stub
                     BTNDone.setVisibility(View.VISIBLE);
                     BTNInfo.setVisibility(View.VISIBLE);
@@ -153,7 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         }
                     });
 
-                    return true;
+                    return false;
                 }
                 else{
                     //Clicked on blue tag
