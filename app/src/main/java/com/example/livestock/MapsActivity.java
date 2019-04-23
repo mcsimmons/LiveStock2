@@ -98,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap = googleMap;
         LatLng loc = new LatLng(latitude[0], longitude[0]);
-        mMap.addMarker(new MarkerOptions().position(loc).title(LivestockAppData.UserFName + " " + LivestockAppData.UserLName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+        mMap.addMarker(new MarkerOptions().position(loc).title(LivestockAppData.UserFName + " " + LivestockAppData.UserLName).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE))).setTag(-1);
         //
 
         //Zoom in on location
@@ -148,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         @Override
                         public void onClick(View v) {
 
-                            showOwnerInfoPopup((long) marker.getTag());
+                            showOwnerInfoPopup((long) marker.getTag(), marker.getTitle());
 
                         }
                     });
@@ -165,7 +165,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
-    public void showOwnerInfoPopup(long owner_id){
+    public void showOwnerInfoPopup(long owner_id, final String name){
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
                 getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -189,7 +189,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //Don't bother on older phones
         }
 
+        final TextView TXTName = (TextView) popupView.findViewById(R.id.TXT_Address_Label);
         final TextView TXTAddress = (TextView) popupView.findViewById(R.id.TXT_POP_Owner_Address);
+        final TextView TXTNotes = (TextView) popupView.findViewById(R.id.TXT_POP_Owner_Notes);
+        TXTNotes.setVisibility(View.GONE);
 
         API.getOwnerInfo(new Response.Listener<String>() {
             @Override
@@ -198,6 +201,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     JSONObject jResponse = new JSONObject(response);
 
                     TXTAddress.setText(jResponse.get("address").toString());
+                    TXTName.setText(name);
+
+                    if(jResponse.has("notes")){
+                        TXTNotes.setText(jResponse.get("notes").toString());
+                        TXTNotes.setVisibility(View.VISIBLE);
+                    }
 
                     // show the popup window
                     popupWindow.showAtLocation(MapsActivity.this.findViewById(android.R.id.content), Gravity.CENTER, 0, 0);

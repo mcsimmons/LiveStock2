@@ -85,6 +85,19 @@ public class HomeScreen extends AppCompatActivity {
 }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == 2) {
+                //Logout called
+                finish();
+            }
+            else if(resultCode == 3){
+                performLocationSearch();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -95,7 +108,7 @@ public class HomeScreen extends AppCompatActivity {
     }
 
 
-    private void performLocationSearch(){
+    public void performLocationSearch(){
         final LivestockAPI API = LivestockAPI.getInstance(this);
         //Request Location permission
         if (ContextCompat.checkSelfPermission(HomeScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

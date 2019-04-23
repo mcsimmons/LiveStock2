@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
         android:paddingHorizontal="30dp"
         android:textSize="22sp"
         android:text="Address:"/>
@@ -23,9 +24,20 @@
         android:layout_centerInParent="true"
         android:layout_below="@+id/TXT_Address_Label"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:paddingHorizontal="30dp"
         android:textSize="22sp"
         tools:text="Addreess Here" />
+
+    <TextView
+        android:id="@+id/TXT_POP_Owner_Notes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/TXT_POP_Owner_Address"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:paddingHorizontal="30dp"
+        android:textSize="22sp"
+        tools:text="Notes Here" />
 
 </RelativeLayout>

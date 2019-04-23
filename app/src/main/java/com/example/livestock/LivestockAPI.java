@@ -133,7 +133,7 @@ public class LivestockAPI {
     }
 
     // Network Requests
-    public void addOwner(final String f_name,final String l_name, final String phone, final String street, final String city, final String state, final String zip, Response.Listener<String> onSuccess){
+    public void addOwner(final String f_name,final String l_name, final String phone, final String street, final String city, final String state, final String zip, final String notes, Response.Listener<String> onSuccess){
 
         mRequestQueue = Volley.newRequestQueue(mCtx);
 
@@ -146,6 +146,7 @@ public class LivestockAPI {
             jsonBody.put("f_name", f_name);
             jsonBody.put("l_name", l_name);
             jsonBody.put("zip", zip);
+            jsonBody.put("notes", notes);
             jsonBody.put("user_id", LivestockAppData.UserID);
             final String requestString = jsonBody.toString();
 
