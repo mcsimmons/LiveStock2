@@ -98,5 +98,15 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                //Logout called, clear password
+                ((EditText)findViewById(R.id.TXT_Password)).setText("");
+            }
+        }
+    }
+
 
 }

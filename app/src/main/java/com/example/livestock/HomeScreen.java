@@ -66,6 +66,7 @@ public class HomeScreen extends AppCompatActivity {
                         }
                         else if  (menuItem.getTitle().equals("Logout")){
                             //Return to login
+                            setResult(RESULT_OK);
                             finish();
                         }
 
@@ -87,11 +88,12 @@ public class HomeScreen extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 0) {
-            if (resultCode == 2) {
+            if (resultCode == LivestockAppData.RESULT_LOGOUT) {
                 //Logout called
+                setResult(RESULT_OK);
                 finish();
             }
-            else if(resultCode == 3){
+            else if(resultCode == LivestockAppData.RESULT_LOCATION_SEARCH){
                 performLocationSearch();
             }
         }
