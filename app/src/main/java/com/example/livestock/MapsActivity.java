@@ -81,6 +81,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
 
+    //Called when app is brought back to the foreground
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //If app memory was cleared, return to the login screen (login is required to reload data)
+        if(LivestockAppData.UserLName == null){
+            finish();
+        }
+    }
+
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.

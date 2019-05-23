@@ -88,6 +88,18 @@ public class AddOwner extends AppCompatActivity {
         });
     }
 
+
+    //Called when app is brought back to the foreground
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //If app memory was cleared, return to the login screen (login is required to reload data)
+        if(LivestockAppData.UserLName == null){
+            finish();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {

@@ -109,6 +109,17 @@ public class HomeScreen extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //Called when app is brought back to the foreground
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        //If app memory was cleared, return to the login screen (login is required to reload data)
+        if(LivestockAppData.UserLName == null){
+            finish();
+        }
+    }
+
 
     public void performLocationSearch(){
         final LivestockAPI API = LivestockAPI.getInstance(this);
