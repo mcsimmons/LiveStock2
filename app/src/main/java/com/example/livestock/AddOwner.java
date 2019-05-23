@@ -111,15 +111,29 @@ public class AddOwner extends AppCompatActivity {
     }
 
     public void addOwnerInfo(){
-        EditText fname = (EditText) findViewById(R.id.TXT_OwnerFName);
-        EditText lname = (EditText) findViewById(R.id.TXT_OwnerLName);
-        EditText phone = (EditText) findViewById(R.id.TXT_OwnerPhone);
-        EditText street = (EditText) findViewById(R.id.TXT_OwnerStreet);
-        EditText city = (EditText) findViewById(R.id.TXT_OwnerCity);
-        EditText state = (EditText) findViewById(R.id.TXT_OwnerState);
-        EditText zip = (EditText) findViewById(R.id.TXT_OwnerZip);
-        EditText notes =  findViewById(R.id.TXT_OwnerNotes);
-        API.addOwner(fname.getText().toString(),lname.getText().toString(),phone.getText().toString(),street.getText().toString(),city.getText().toString(),state.getText().toString(),zip.getText().toString(),notes.getText().toString(),new Response.Listener<String>(){
+        String fname = ((EditText) findViewById(R.id.TXT_OwnerFName)).getText().toString();
+        String lname = ((EditText) findViewById(R.id.TXT_OwnerLName)).getText().toString();
+        String phone = ((EditText) findViewById(R.id.TXT_OwnerPhone)).getText().toString();
+        String street =( (EditText) findViewById(R.id.TXT_OwnerStreet)).getText().toString();
+        String city = ((EditText) findViewById(R.id.TXT_OwnerCity)).getText().toString();
+        String state = ((EditText) findViewById(R.id.TXT_OwnerState)).getText().toString();
+        String zip = ((EditText) findViewById(R.id.TXT_OwnerZip)).getText().toString();
+        String notes =  ((EditText) findViewById(R.id.TXT_OwnerNotes)).getText().toString();
+
+        //remove any special characters from phone number
+        phone = phone.replaceAll("[^\\d.]", "");
+
+        //Validate form
+        if(fname.length() < 1 || lname.length() < 1 || street.length() < 1 || city.length() < 1 || state.length() < 1 || zip.length() < 1){
+            Toast.makeText(getApplicationContext(), "You must complete all fields.", Toast.LENGTH_LONG).show();
+            return;
+        }
+        if(phone.length() < 9){
+            Toast.makeText(getApplicationContext(), "Please enter a valid phone number with area code.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        API.addOwner(fname,lname,phone,street,city,state,zip,notes,new Response.Listener<String>(){
             @Override
             public void onResponse(String response)
             {   // Get Response

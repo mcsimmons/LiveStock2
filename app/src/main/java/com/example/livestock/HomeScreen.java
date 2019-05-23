@@ -20,6 +20,9 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,6 +86,8 @@ public class HomeScreen extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        refreshLocation();
 }
 
     @Override
@@ -118,8 +123,28 @@ public class HomeScreen extends AppCompatActivity {
         if(LivestockAppData.UserLName == null){
             finish();
         }
+        else{
+            refreshLocation();
+        }
     }
 
+    public void refreshLocation(){
+        // FORCE A LOCATION UPDATE
+        LocationCallback locCallback = new LocationCallback(){
+            @Override
+            public void onLocationResult(LocationResult locResult) {
+                Log.i("LOC",locResult.toString());
+            }
+        };
+        LocationRequest locRequest = new LocationRequest();
+
+        if (ContextCompat.checkSelfPermission(HomeScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(HomeScreen.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            mFusedLocationClient.requestLocationUpdates(
+                    locRequest,locCallback,null);
+        }
+    }
 
     public void performLocationSearch(){
         final LivestockAPI API = LivestockAPI.getInstance(this);

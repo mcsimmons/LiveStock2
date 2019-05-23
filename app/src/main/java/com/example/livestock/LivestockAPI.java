@@ -2,6 +2,7 @@ package com.example.livestock;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +24,7 @@ public class LivestockAPI {
     private static Context mCtx;
     private static final String TAG = MainActivity.class.getName();
     private FusedLocationProviderClient mFusedLocationClient;
+    private final String base_url = "http://www.thelivestockapp.com";
 
 
     private LivestockAPI(Context context) {
@@ -65,10 +67,11 @@ public class LivestockAPI {
             final String requestString = jsonBody.toString();
 
             // Create Request
-            mStringRequest = new StringRequest(Request.Method.POST, "http://3.17.167.248/users", onSuccess, new Response.ErrorListener() {
+            mStringRequest = new StringRequest(Request.Method.POST, base_url + "/users", onSuccess, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i(TAG, "ERROR :" + error.toString());
+                    Toast.makeText(mCtx, "Network Error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
                 }
             }) {
                 @Override
@@ -106,10 +109,11 @@ public class LivestockAPI {
             final String requestString = jsonBody.toString();
 
             // Create Request
-            mStringRequest = new StringRequest(Request.Method.POST, "http://3.17.167.248/register", onSuccess, new Response.ErrorListener() {
+            mStringRequest = new StringRequest(Request.Method.POST, base_url + "/register", onSuccess, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i(TAG, "ERROR :" + error.toString());
+                    Toast.makeText(mCtx, "Network Error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
                 }
             }) {
                 @Override
@@ -151,10 +155,11 @@ public class LivestockAPI {
             final String requestString = jsonBody.toString();
 
             // Create Request
-            mStringRequest = new StringRequest(Request.Method.POST, "http://3.17.167.248/owners", onSuccess, new Response.ErrorListener() {
+            mStringRequest = new StringRequest(Request.Method.POST, base_url + "/owners", onSuccess, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Log.i(TAG, "ERROR :" + error.toString());
+                    Toast.makeText(mCtx, "Network Error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
                 }
             }) {
                 @Override
@@ -182,9 +187,10 @@ public class LivestockAPI {
         mRequestQueue = Volley.newRequestQueue(mCtx);
 
         // Create Request
-        mStringRequest = new StringRequest(Request.Method.GET,"http://3.17.167.248/owners", onSuccess, new Response.ErrorListener() {
+        mStringRequest = new StringRequest(Request.Method.GET,base_url + "/owners", onSuccess, new Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error){
                 Log.i(TAG, "ERROR :" + error.toString());
+                Toast.makeText(mCtx, "Network Error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -196,9 +202,10 @@ public class LivestockAPI {
         mRequestQueue = Volley.newRequestQueue(mCtx);
 
         // Create Request
-        mStringRequest = new StringRequest(Request.Method.GET,"http://3.17.167.248/owner_info?owner_id=" + owner_id, onSuccess, new Response.ErrorListener() {
+        mStringRequest = new StringRequest(Request.Method.GET,base_url + "/owner_info?owner_id=" + owner_id, onSuccess, new Response.ErrorListener() {
             @Override public void onErrorResponse(VolleyError error){
                 Log.i(TAG, "ERROR :" + error.toString());
+                Toast.makeText(mCtx, "Network Error. Please check your connection and try again.", Toast.LENGTH_LONG).show();
             }
         });
 
