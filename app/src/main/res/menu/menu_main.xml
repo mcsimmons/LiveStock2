@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.example.livestock.MainActivity">
+    tools:context="com.example.livestock.live.example.livestock.MainActivity">
     <item
         android:id="@+id/menu_login"
         android:orderInCategory="99"
@@ -26,6 +26,13 @@
         android:orderInCategory="102"
         android:title="Location Search"
         android:icon="@drawable/ic_pin_drop_black_24dp"
+        app:showAsAction="never">
+    </item>
+    <item
+        android:id="@+id/menu_owner_search"
+        android:orderInCategory="103"
+        android:title="Owner Search"
+        android:icon="@drawable/ic_search_black_24dp"
         app:showAsAction="never">
     </item>
 </menu>

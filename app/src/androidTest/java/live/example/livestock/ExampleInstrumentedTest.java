@@ -1,4 +1,4 @@
-package com.example.livestock;
+package live.example.livestock;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

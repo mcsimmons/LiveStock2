@@ -1,20 +1,16 @@
-package com.example.livestock;
+package live.example.livestock;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import live.example.livestock.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class RegisterUser extends Activity {
     final LivestockAPI API = LivestockAPI.getInstance(this);

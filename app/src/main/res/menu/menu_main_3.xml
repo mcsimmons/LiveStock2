@@ -3,33 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.livestock.live.example.livestock.MainActivity">
     <item
-        android:id="@+id/menu_login_2"
+        android:id="@+id/menu_login_3"
         android:orderInCategory="99"
         android:title="Logout"
         android:icon="@drawable/ic_arrow_back_black_24dp"
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/menu_home_2"
+        android:id="@+id/menu_home_3"
         android:orderInCategory="100"
         android:title="Home"
         android:icon="@drawable/ic_home_black_24dp"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_add_owner_2"
+        android:id="@+id/menu_add_owner_3"
         android:orderInCategory="101"
         android:title="Add Owner"
         android:icon="@drawable/ic_person_add_black_24dp"
         app:showAsAction="never" />
     <item
-        android:id="@+id/menu_location_search_2"
+        android:id="@+id/menu_location_search_3"
         android:orderInCategory="102"
         android:title="Location Search"
         android:icon="@drawable/ic_pin_drop_black_24dp"
         app:showAsAction="never">
     </item>
     <item
-        android:id="@+id/menu_owner_search_2"
+        android:id="@+id/menu_owner_search_3"
         android:orderInCategory="103"
         android:title="Owner Search"
         android:icon="@drawable/ic_search_black_24dp"

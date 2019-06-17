@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.livestock">
+    package="live.example.livestock">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
@@ -14,7 +14,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".MainActivity"
+        <activity android:name="live.example.livestock.MainActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +22,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapsActivity"
-            android:parentActivityName=".HomeScreen"/>
-        <activity android:name=".HomeScreen"
-            android:parentActivityName=".MainActivity"/>
-        <activity android:name=".RegisterUser"
+        <activity android:name="live.example.livestock.MapsActivity"
+            android:parentActivityName="live.example.livestock.HomeScreen"/>
+        <activity android:name="live.example.livestock.HomeScreen"
+            android:parentActivityName="live.example.livestock.MainActivity"/>
+        <activity android:name="live.example.livestock.RegisterUser"
             android:windowSoftInputMode="adjustPan"
-            android:parentActivityName="com.example.livestock.MainActivity"/>
-        <activity android:name=".AddOwner"
+            android:parentActivityName="live.example.livestock.MainActivity"/>
+        <activity android:name="live.example.livestock.AddOwner"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name="live.example.livestock.OwnerSearch"
             android:windowSoftInputMode="adjustPan"/>
     </application>
 

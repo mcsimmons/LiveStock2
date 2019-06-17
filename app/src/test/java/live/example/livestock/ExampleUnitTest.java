@@ -1,4 +1,4 @@
-package com.example.livestock;
+package live.example.livestock;
 
 import org.junit.Test;
 

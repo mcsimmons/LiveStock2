@@ -1,6 +1,5 @@
-package com.example.livestock;
+package live.example.livestock;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,8 +15,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import live.example.livestock.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
+import static live.example.livestock.LivestockAppData.RESULT_LOCATION_SEARCH;
 
 public class AddOwner extends AppCompatActivity {
     final LivestockAPI API = LivestockAPI.getInstance(this);
@@ -28,14 +30,14 @@ public class AddOwner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.addowner);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(AddOwner.this);
+
         Toolbar toolbar = AddOwner.this.findViewById(R.id.toolbar_2);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayShowTitleEnabled(false);
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(AddOwner.this);
 
         //Initialize side menu
         sideMenu = AddOwner.this.findViewById(R.id.side_menu_2);
@@ -46,7 +48,7 @@ public class AddOwner extends AppCompatActivity {
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
                         if (menuItem.getTitle().equals("Location Search")){
-                            setResult(LivestockAppData.RESULT_LOCATION_SEARCH);
+                            setResult(RESULT_LOCATION_SEARCH);
                             finish();
                         }
                         else if  (menuItem.getTitle().equals("Home")){
@@ -60,6 +62,11 @@ public class AddOwner extends AppCompatActivity {
                             //Return to login
                             setResult(LivestockAppData.RESULT_LOGOUT);
                             finish();
+                        }
+                        else if  (menuItem.getTitle().equals("Owner Search")){
+                            //Return to login
+                            Intent myIntent = new Intent(AddOwner.this,OwnerSearch.class);
+                            startActivityForResult(myIntent,0);
                         }
 
                         else
@@ -101,6 +108,21 @@ public class AddOwner extends AppCompatActivity {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == LivestockAppData.RESULT_LOGOUT) {
+                //Logout called
+                setResult(RESULT_OK);
+                finish();
+            }
+            else if(resultCode == RESULT_LOCATION_SEARCH){
+                setResult(RESULT_LOCATION_SEARCH);
+                finish();
+            }
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -124,8 +146,8 @@ public class AddOwner extends AppCompatActivity {
         phone = phone.replaceAll("[^\\d.]", "");
 
         //Validate form
-        if(fname.length() < 1 || lname.length() < 1 || street.length() < 1 || city.length() < 1 || state.length() < 1 || zip.length() < 1){
-            Toast.makeText(getApplicationContext(), "You must complete all fields.", Toast.LENGTH_LONG).show();
+        if(fname.length() < 1 || lname.length() < 1){
+            Toast.makeText(getApplicationContext(), "You must enter a name for the owner+.", Toast.LENGTH_LONG).show();
             return;
         }
         if(phone.length() < 9){

@@ -1,7 +1,6 @@
-package com.example.livestock;
+package live.example.livestock;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -19,6 +18,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Response;
+import live.example.livestock.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -31,6 +31,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class HomeScreen extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private DrawerLayout sideMenu;
@@ -42,6 +44,8 @@ public class HomeScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_screen);
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(HomeScreen.this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionbar = getSupportActionBar();
@@ -49,7 +53,6 @@ public class HomeScreen extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_black_24dp);
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(HomeScreen.this);
 
         //Initialize side menu
         sideMenu = findViewById(R.id.side_menu);
@@ -71,6 +74,11 @@ public class HomeScreen extends AppCompatActivity {
                             //Return to login
                             setResult(RESULT_OK);
                             finish();
+                        }
+                        else if  (menuItem.getTitle().equals("Owner Search")){
+                            //Return to login
+                            Intent myIntent = new Intent(HomeScreen.this,OwnerSearch.class);
+                            startActivityForResult(myIntent,0);
                         }
 
                         else
@@ -178,14 +186,15 @@ public class HomeScreen extends AppCompatActivity {
                                     double[] longitudes = new double[jResponse.length() + 1];
                                     double[] latitudes = new double[jResponse.length() + 1];
                                     String[] names = new String[jResponse.length() + 1];
-                                    long[] phones = new long[jResponse.length() + 1];
+                                    //long[][] phones = new long[jResponse.length() + 1][];
+                                    //ArrayList<long[]> phones = new ArrayList<>();
 
                                     //Start with user's current location
                                     owner_ids[0] = -1;
                                     longitudes[0] = longitude;
                                     latitudes[0] = latitude;
                                     names[0] = "You are here";
-                                    phones[0] = 0;
+                                    //phones.add(new long[]{0});
 
                                     //Extract all coordinates and names from response
                                     for (int i = 1; i <= jResponse.length(); i++){
@@ -194,7 +203,12 @@ public class HomeScreen extends AppCompatActivity {
                                         longitudes[i] = job.getDouble("longitude");
                                         latitudes[i] = job.getDouble("latitude");
                                         names[i] = job.getString("name");
-                                        phones[i] = job.getLong("phone");
+                                        //long[] phone_array = new long [job.getJSONArray("phone").length()];
+
+                                        //for(int j = 0; j< phone_array.length; j++){
+                                        //    phone_array[j] = (long) job.getJSONArray("phone").get(j);
+                                        //}
+                                        //phones.add(phone_array);
                                     }
                                     //Now show success map view
                                     Intent myIntent = new Intent(HomeScreen.this,MapsActivity.class);
@@ -202,7 +216,7 @@ public class HomeScreen extends AppCompatActivity {
                                     myIntent.putExtra("longitudes",longitudes);
                                     myIntent.putExtra("latitudes",latitudes);
                                     myIntent.putExtra("names",names);
-                                    myIntent.putExtra("phones",phones);
+                                    //myIntent.putExtra("phones",phones);
                                     startActivityForResult(myIntent,0);
                                 }
                                 catch(JSONException e)

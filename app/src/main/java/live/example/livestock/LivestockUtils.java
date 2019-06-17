@@ -1,4 +1,4 @@
-package com.example.livestock;
+package live.example.livestock;
 
 public class LivestockUtils {
 }

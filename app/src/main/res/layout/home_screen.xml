@@ -9,7 +9,6 @@ android:fitsSystemWindows="true"
 android:id = "@+id/side_menu">
 
 <!-- Layout to contain contents of main body of screen (drawer will slide over this) -->
-
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@ android:id = "@+id/side_menu">
             android:layout_height="match_parent"
             android:layout_marginTop="50dp"
             android:background="@color/LiveStockColor"
-            tools:context=".MainActivity">
+            tools:context="live.example.livestock.MainActivity">
 
             <TextView
                 android:id="@+id/textView3"

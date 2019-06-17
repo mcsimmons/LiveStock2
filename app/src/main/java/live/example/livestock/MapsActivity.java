@@ -1,4 +1,4 @@
-package com.example.livestock;
+package live.example.livestock;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -19,10 +21,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Response;
-import com.google.android.gms.maps.CameraUpdate;
+
+import live.example.livestock.Adapter.ListAdapter;
+import live.example.livestock.Model.ListItem;
+import live.example.livestock.R;
+import live.example.livestock.Utils.PhonePicker;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -33,6 +39,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     final LivestockAPI API = LivestockAPI.getInstance(this);
@@ -41,7 +50,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double[] longitude;
     private double[] latitude;
     private String[] names;
-    private long[] phones;
+    //private long[] phones;
+    private String owner_name;
+    private long[] owner_phones;
+    private String owner_note;
+    private String owner_address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +67,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         longitude= intent.getDoubleArrayExtra("longitudes");
         latitude= intent.getDoubleArrayExtra("latitudes");
         names = intent.getStringArrayExtra("names");
-        phones = intent.getLongArrayExtra("phones");
+        //phones = intent.getarraylist("phones");
 
         setContentView(R.layout.location_search);
 
@@ -132,6 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             @Override
             public boolean onMarkerClick(final Marker marker) {
 
+
                 //marker.showInfoWindow();
                 //CameraUpdate mCameraUpdate = CameraUpdateFactory.newLatLng(marker.getPosition());
                 //mMap.animateCamera(mCameraUpdate);
@@ -146,6 +160,36 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
 
                 if (marker_index >= 0) {
+                    API.getOwnerInfo(new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONObject jResponse = new JSONObject(response);
+
+                                owner_address = (jResponse.get("address").toString());
+                                owner_name = (marker.getTitle());
+                                owner_phones = new long[jResponse.getJSONArray("phones").length()];
+
+                                for(int i = 0; i<owner_phones.length;i++){
+                                    owner_phones[i] = jResponse.getJSONArray("phones").getLong(i);
+                                }
+
+                                if(jResponse.has("notes")){
+                                    owner_note = (jResponse.get("notes").toString());
+                                }
+                                else{
+                                    owner_note = null;
+                                }
+
+                            }
+                            catch(JSONException e)
+                            {
+                                Toast.makeText(getApplicationContext(),"Invalid response from server", Toast.LENGTH_LONG).show();
+                                Log.e("Login", "INVALID RESPONSE :" + response);
+                                return;
+                            }
+                        }
+                    }, (long) marker.getTag());
                     // TODO Auto-generated method stub
                     BTNDone.setVisibility(View.VISIBLE);
                     BTNInfo.setVisibility(View.VISIBLE);
@@ -154,19 +198,41 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     BTNDone.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(Intent.ACTION_DIAL);
-                            long phone = 0;
 
-                            //get index of owner by id
-                            for (int i = 0; i < owner_ids.length; i++) {
-                                if (owner_ids[i] == (long) marker.getTag()) {
-                                    phone = phones[i];
-                                }
+                            if(owner_phones.length == 0){
+                                Toast.makeText(getApplicationContext(),"No phone number found for this owner.",Toast.LENGTH_LONG).show();
                             }
+                            else if(owner_phones.length == 1) {
+                                Intent intent = new Intent(Intent.ACTION_DIAL);
+                                long phone = owner_phones[0];
 
-                            intent.setData(Uri.parse("tel:" + phone));
-                            getApplicationContext().startActivity(intent);
+                                intent.setData(Uri.parse("tel:" + phone));
+                                getApplicationContext().startActivity(intent);
+                            }
+                            else{
 
+                                LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                                View popupView = inflater.inflate(R.layout.pick_phone_number_popup, null);
+                                PhonePicker picker = new PhonePicker(getApplicationContext(),owner_phones,popupView,findViewById(android.R.id.content));
+                                picker.showPhonePickerPopup();
+                                //Multiple numbers found so have user pick one
+                              /*  LinearLayoutManager myLinearLayout = new LinearLayoutManager(getApplicationContext());
+                                 RecyclerView recyclerView;
+                                 RecyclerView.Adapter adapter;
+                                recyclerView = (RecyclerView) findViewById(R.id.ol_recycler);
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(myLinearLayout);
+
+
+                                List<ListItem> listItems = new ArrayList<>();
+
+                                for(Long phone : owner_phones){
+                                    listItems.add(new ListItem(0,""+phone,""));
+                                }
+
+                                adapter = new ListAdapter(MapsActivity.this, listItems);
+                                recyclerView.setAdapter(adapter);*/
+                            }
                         }
                     });
 
@@ -221,32 +287,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         final TextView TXTNotes = (TextView) popupView.findViewById(R.id.TXT_POP_Owner_Notes);
         TXTNotes.setVisibility(View.GONE);
 
-        API.getOwnerInfo(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jResponse = new JSONObject(response);
 
-                    TXTAddress.setText(jResponse.get("address").toString());
+                    TXTAddress.setText(owner_address);
                     TXTName.setText(name);
 
-                    if(jResponse.has("notes")){
-                        TXTNotes.setText(jResponse.get("notes").toString());
+                    if(owner_note != null){
+                        TXTNotes.setText(owner_note);
                         TXTNotes.setVisibility(View.VISIBLE);
                     }
 
                     // show the popup window
                     popupWindow.showAtLocation(MapsActivity.this.findViewById(android.R.id.content), Gravity.CENTER, 0, 0);
 
-                }
-                catch(JSONException e)
-                {
-                    Toast.makeText(getApplicationContext(),"Invalid response from server", Toast.LENGTH_LONG).show();
-                    Log.e("Login", "INVALID RESPONSE :" + response);
-                    return;
-                }
-            }
-        }, owner_id);
 
 
 
